@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10264A">
+<title>Desafio 9 Dias – Fé, Disciplina e Propósito</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🕊️%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#10264A; --ink2:#3B4E70; --sky:#E8F1FB; --card:#FFFFFF; --line:#D3E0F0;
+  --gold:#C98F1E; --goldbg:#FBF0D5; --green:#1F8F5F; --greenbg:#DDF3E8;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif; --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--ink:#EAF1FF; --ink2:#A9B9D6; --sky:#0B1830; --card:#13264A; --line:#27406B; --gold:#F0B94A; --goldbg:#3A3017; --green:#4CC48C; --greenbg:#143A2D}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--sky);color:var(--ink);font:16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:640px;margin:0 auto;padding:0 18px 80px}
+h1,h2,h3{font-family:var(--serif);line-height:1.15;margin:0}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* capa */
+.hero{background:linear-gradient(170deg,#10264A 0%,#1E4A86 100%);color:#fff;padding:44px 18px 64px;text-align:center;border-radius:0 0 36px 36px}
+.hero .in{max-width:640px;margin:0 auto}
+.hero h1{font-size:clamp(2.1rem,9vw,3.2rem);font-weight:700;letter-spacing:-.01em}
+.hero .sub{color:#C9D8F0;margin:10px auto 0;max-width:34ch}
+.verse{margin:26px auto 0;max-width:30ch;font-family:var(--serif);font-size:1.35rem;font-weight:500;color:#F6D58A}
+.verse small{display:block;font-family:var(--sans);font-size:.9rem;color:#C9D8F0;margin-top:6px}
+.today{display:inline-block;margin-top:24px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:8px 18px;border-radius:99px;font-weight:500}
+
+/* cartões */
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;margin-top:18px}
+.card h2{font-size:1.4rem;margin-bottom:6px}
+.muted{color:var(--ink2);font-size:.95rem}
+.pull{margin-top:-32px}
+
+/* progresso */
+.bar{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin:12px 0 6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:99px;transition:width .5s}
+.start{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-top:14px}
+.start label{display:flex;flex-direction:column;font-size:.85rem;color:var(--ink2);gap:4px}
+input[type=date],input[type=text],textarea{background:var(--sky);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+textarea{resize:vertical;min-height:84px}
+
+/* trilha */
+.trail{display:grid;grid-template-columns:repeat(9,1fr);gap:6px;margin-top:14px}
+.dot{aspect-ratio:1;border-radius:50%;border:2px solid var(--line);background:var(--sky);font-weight:700;display:grid;place-items:center;cursor:pointer;color:var(--ink2);padding:0;transition:transform .15s}
+.dot:active{transform:scale(.92)}
+.dot.part{background:var(--goldbg);border-color:var(--gold);color:var(--gold)}
+.dot.done{background:var(--green);border-color:var(--green);color:#fff}
+.dot.sel{box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--ink)}
+.dot.lock{opacity:.45}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--ink2);margin-top:12px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;background:var(--line)}
+.legend .p::before{background:var(--gold)} .legend .d::before{background:var(--green)}
+
+/* checklist */
+.chk{display:block;border:1.5px solid var(--line);border-radius:16px;padding:14px;margin-top:12px;transition:border-color .2s,background .2s}
+.chk.on{border-color:var(--green);background:var(--greenbg)}
+.chk .top{display:flex;gap:12px;align-items:center;cursor:pointer}
+.chk input[type=checkbox]{width:26px;height:26px;accent-color:var(--green);flex:none}
+.chk b{font-size:1.02rem}
+.chk .more{margin-top:12px;display:grid;gap:10px}
+.chk .more label{font-size:.85rem;color:var(--ink2);display:grid;gap:4px}
+.dayhead{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.chip{background:var(--goldbg);color:var(--gold);border-radius:99px;padding:3px 12px;font-size:.85rem;font-weight:700}
+.dverse{border-left:4px solid var(--gold);padding:4px 0 4px 14px;margin:14px 0 4px;font-family:var(--serif);font-size:1.1rem}
+.dverse small{display:block;font-family:var(--sans);color:var(--ink2);font-size:.85rem}
+.msg{margin-top:14px;padding:12px 14px;border-radius:14px;background:var(--greenbg);color:var(--green);font-weight:700;display:none}
+.msg.show{display:block}
+
+/* timer */
+.timer{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+.clock{font-family:var(--serif);font-size:2.2rem;font-weight:700;min-width:5ch}
+.btn{border:0;border-radius:12px;padding:10px 18px;font-weight:700;cursor:pointer;background:var(--ink);color:var(--sky)}
+.btn.alt{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.gold{background:var(--gold);color:#10264A}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+/* diário / regras */
+.entry{border-top:1px solid var(--line);padding:12px 0}
+.entry:first-of-type{border-top:0}
+.entry h3{font-size:1rem;font-family:var(--sans);font-weight:700}
+details{border-top:1px solid var(--line);padding:12px 0}
+details:first-of-type{border-top:0}
+summary{cursor:pointer;font-weight:700;font-family:var(--serif);font-size:1.1rem}
+ul.l{margin:10px 0 0;padding-left:20px} ul.l li{margin:4px 0}
+.switch{display:flex;gap:10px;align-items:center;margin-top:12px;font-size:.95rem}
+.switch input{width:20px;height:20px;accent-color:var(--gold)}
+footer{text-align:center;color:var(--ink2);font-size:.9rem;margin-top:34px}
+footer .vv{font-family:var(--serif);font-size:1.05rem;color:var(--ink)}
+
+/* celebração */
+dialog{border:0;border-radius:24px;max-width:420px;width:calc(100% - 36px);padding:30px 24px;text-align:center;background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(8,18,40,.7)}
+dialog h2{font-size:1.9rem}
+.conf{position:fixed;top:-30px;font-size:1.6rem;pointer-events:none;z-index:99;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){.conf{display:none}.bar i{transition:none}}
+@media (max-width:420px){.trail{gap:4px}.dot{font-size:.85rem}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="in">
+    <h1>Desafio 9 Dias</h1>
+    <p class="sub">Fé, disciplina e propósito. Nove dias para crescermos juntos.</p>
+    <p class="verse" id="heroVerse">“Tudo posso naquele que me fortalece.”<small>Filipenses 4:13</small></p>
+    <div class="today" id="todayPill">Escolha a data de início abaixo</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="card pull" aria-labelledby="hProg">
+    <h2 id="hProg">Nosso progresso</h2>
+    <p class="muted" id="progTxt">0 de 9 dias completos</p>
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="9" id="bar"><i id="barFill"></i></div>
+    <div class="trail" id="trail" aria-label="Os 9 dias do desafio"></div>
+    <div class="legend"><span>Pendente</span><span class="p">Parcial</span><span class="d">Dia completo</span></div>
+    <div class="start">
+      <label>Quem está marcando?<input type="text" id="who" placeholder="Seu nome" maxlength="30"></label>
+      <label>Início do desafio<input type="date" id="startDate"></label>
+      <button class="btn gold" id="startToday" type="button">Começar hoje</button>
+    </div>
+    <p class="muted" style="margin:10px 0 0;font-size:.85rem">Os dados ficam salvos neste aparelho. Cada um marca o seu e a foto continua indo no grupo.</p>
+  </section>
+
+  <section class="card" id="dayCard" aria-live="polite"></section>
+
+  <section class="card" aria-labelledby="hTimer">
+    <h2 id="hTimer">Cronômetro de 20 minutos</h2>
+    <p class="muted">Para o seu exercício do dia.</p>
+    <div class="timer">
+      <span class="clock" id="clock">20:00</span>
+      <button class="btn" id="tGo" type="button">Iniciar</button>
+      <button class="btn alt" id="tReset" type="button">Zerar</button>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="hDiary">
+    <h2 id="hDiary">Diário da fé</h2>
+    <p class="muted">O que você aprendeu em cada dia.</p>
+    <div id="diary"></div>
+  </section>
+
+  <section class="card" aria-labelledby="hRead">
+    <h2 id="hRead">Roteiro de leitura</h2>
+    <p class="muted">Uma sugestão de capítulo por dia. Se preferir escolher o seu, deixe desligado.</p>
+    <label class="switch"><input type="checkbox" id="roadToggle"> Mostrar a sugestão no checklist do dia</label>
+    <ul class="l" id="roadList"></ul>
+  </section>
+
+  <section class="card" aria-labelledby="hRules">
+    <h2 id="hRules">Regras e compromisso</h2>
+    <details>
+      <summary>Os três compromissos diários</summary>
+      <ul class="l">
+        <li><b>Alimentar o espírito:</b> ler 1 capítulo da Bíblia, refletir e identificar um ensinamento para a vida.</li>
+        <li><b>Cuidar do corpo:</b> pelo menos 20 minutos de atividade física, no exercício que preferir, respeitando seus limites.</li>
+        <li><b>Prestar contas:</b> enviar no grupo a foto, o capítulo lido e a atividade feita.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Regras gerais</summary>
+      <ul class="l">
+        <li>9 dias consecutivos, com os três compromissos todos os dias.</li>
+        <li>A foto vai para o grupo no mesmo dia. Nada de fotos antigas ou de outras pessoas.</li>
+        <li>Cumprir com sinceridade, sem fiscalizar nem cobrar o outro em excesso.</li>
+        <li>Se falhar, reconhecer sem inventar justificativas.</li>
+        <li>O desafio não é motivo de cobrança, discussão ou desânimo. Aqui há incentivo e apoio mútuo.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Nosso compromisso</summary>
+      <ul class="l">
+        <li>Colocar Deus em primeiro lugar.</li>
+        <li>Desenvolver disciplina e autocontrole.</li>
+        <li>Cuidar do corpo que Deus nos confiou.</li>
+        <li>Incentivar um ao outro nos dias difíceis.</li>
+        <li>Não desistir diante da preguiça ou da falta de motivação.</li>
+        <li>Construir hábitos que permaneçam depois do desafio.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>A grande meta</summary>
+      <p>Ao final dos nove dias, olhar para trás e perceber que vencemos a procrastinação, fortalecemos nossa fé e demos passos concretos rumo a uma vida mais saudável.</p>
+    </details>
+    <div class="row"><button class="btn alt" id="resetAll" type="button">Apagar meus dados e recomeçar</button></div>
+  </section>
+
+  <footer>
+    <p class="vv">“Tudo posso naquele que me fortalece.”<br><small>Filipenses 4:13</small></p>
+    <p><b>Assumimos esse compromisso juntos.</b><br>Não é só completar nove dias. É começar uma transformação para a vida toda.</p>
+  </footer>
+</main>
+
+<dialog id="party">
+  <h2>Vocês chegaram lá! 🎉</h2>
+  <p>Nove dias de fé, disciplina e propósito. Que os hábitos fiquem para o resto da vida.</p>
+  <p class="dverse" style="text-align:left">“Aquele que começou boa obra em vós a aperfeiçoará.”<small>Filipenses 1:6</small></p>
+  <div class="row" style="justify-content:center"><button class="btn gold" id="closeParty" type="button">Amém!</button></div>
+</dialog>
+
+<script>
+(function(){
+  var KEY='desafio9dias.v1';
+  var DAYS=[
+    {v:'Tudo posso naquele que me fortalece.',r:'Filipenses 4:13',c:'Salmos 1'},
+    {v:'Confia no Senhor de todo o teu coração.',r:'Provérbios 3:5',c:'Provérbios 3'},
+    {v:'Os que esperam no Senhor renovarão as suas forças.',r:'Isaías 40:31',c:'Isaías 40'},
+    {v:'Não nos cansemos de fazer o bem, pois a seu tempo ceifaremos.',r:'Gálatas 6:9',c:'Gálatas 6'},
+    {v:'O vosso corpo é templo do Espírito Santo.',r:'1 Coríntios 6:19',c:'1 Coríntios 6'},
+    {v:'Melhor são dois do que um.',r:'Eclesiastes 4:9',c:'Eclesiastes 4'},
+    {v:'Sê forte e corajoso.',r:'Josué 1:9',c:'Josué 1'},
+    {v:'Sede cumpridores da palavra, e não somente ouvintes.',r:'Tiago 1:22',c:'Tiago 1'},
+    {v:'Aquele que começou boa obra em vós a aperfeiçoará.',r:'Filipenses 1:6',c:'Filipenses 4'}
+  ];
+  var CHEERS=['Parabéns, vocês estão firmes! 🙌','Dia vencido. Deus é fiel! 🙏','Mais um passo juntos. Continuem! 💪','Disciplina vira hábito. Orgulho de vocês! ❤️'];
+  var S={start:'',who:'',road:false,sel:1,days:{}};
+  var $=function(id){return document.getElementById(id)};
+
+  function load(){try{var j=localStorage.getItem(KEY);if(j){var o=JSON.parse(j);for(var k in o)S[k]=o[k]}}catch(e){}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  function day(n){return S.days[n]||(S.days[n]={bible:false,ex:false,photo:false,chapter:'',msg:'',exercise:''})}
+  function status(n){var d=S.days[n];if(!d)return 0;var c=(d.bible?1:0)+(d.ex?1:0)+(d.photo?1:0);return c===3?2:(c>0?1:0)}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  function todayStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function curDay(){
+    if(!S.start)return 0;
+    var a=new Date(S.start+'T00:00:00'),b=new Date(todayStr()+'T00:00:00');
+    return Math.round((b-a)/86400000)+1;
+  }
+  function dateOf(n){var a=new Date(S.start+'T00:00:00');a.setDate(a.getDate()+n-1);return a.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'})}
+
+  function render(){
+    var cd=curDay(),done=0,i;
+    for(i=1;i<=9;i++)if(status(i)===2)done++;
+    var pill=$('todayPill');
+    pill.textContent=!S.start?'Escolha a data de início abaixo':cd<1?'O desafio começa em breve':cd>9?'Desafio encerrado':'Hoje é o Dia '+cd+' de 9';
+    $('progTxt').textContent=done+' de 9 dias completos';
+    $('barFill').style.width=(done/9*100)+'%';
+    $('bar').setAttribute('aria-valuenow',done);
+    $('who').value=S.who;$('startDate').value=S.start;$('roadToggle').checked=S.road;
+
+    var t='';
+    for(i=1;i<=9;i++){
+      var st=status(i),lock=S.start&&i>cd;
+      t+='<button type="button" class="dot '+(st===2?'done':st===1?'part':'')+(i===S.sel?' sel':'')+(lock?' lock':'')+'" data-d="'+i+'" aria-label="Dia '+i+(st===2?', completo':st===1?', parcial':'')+'">'+(st===2?'✓':i)+'</button>';
+    }
+    $('trail').innerHTML=t;
+    renderDay();renderDiary();renderRoad();
+    var hv=DAYS[(cd>=1&&cd<=9?cd:1)-1];
+    $('heroVerse').innerHTML='“'+hv.v+'”<small>'+hv.r+'</small>';
+  }
+
+  function renderDay(){
+    var n=S.sel,D=DAYS[n-1],d=day(n),cd=curDay();
+    var locked=!S.start||n>cd;
+    var dis=locked?' disabled':'';
+    var sub=S.start?dateOf(n):'Defina a data de início para liberar os dias';
+    var h='<div class="dayhead"><h2>Dia '+n+'</h2><span class="chip">'+(locked?(S.start?'Ainda não chegou':'Aguardando início'):(n===cd?'Hoje':'Dia anterior'))+'</span></div>'+
+      '<p class="muted" style="margin:0;text-transform:capitalize">'+esc(sub)+'</p>'+
+      '<p class="dverse">“'+esc(D.v)+'”<small>'+D.r+'</small></p>';
+    h+=chk('bible','📖','Li 1 capítulo da Bíblia',d,dis,
+      '<label>Qual capítulo?<input type="text" data-f="chapter" value="'+esc(d.chapter)+'" placeholder="'+(S.road?'Sugestão: '+D.c:'Ex.: Salmos 23')+'"'+dis+'></label>'+
+      '<label>Mensagem que posso aplicar na vida<textarea data-f="msg"'+dis+'>'+esc(d.msg)+'</textarea></label>');
+    h+=chk('ex','💪','Fiz 20 minutos de atividade',d,dis,
+      '<label>Qual exercício?<input type="text" data-f="exercise" value="'+esc(d.exercise)+'" placeholder="Ex.: caminhada, agachamentos"'+dis+'></label>');
+    h+=chk('photo','📸','Enviei a foto no grupo',d,dis,'');
+    h+='<div class="msg" id="cheer"></div>';
+    $('dayCard').innerHTML=h;
+  }
+  function chk(k,ic,label,d,dis,more){
+    return '<div class="chk'+(d[k]?' on':'')+'"><label class="top"><input type="checkbox" data-k="'+k+'"'+(d[k]?' checked':'')+dis+'><b>'+ic+' '+label+'</b></label>'+(more?'<div class="more">'+more+'</div>':'')+'</div>';
+  }
+
+  function renderDiary(){
+    var h='',i,any=false;
+    for(i=1;i<=9;i++){var d=S.days[i];if(d&&(d.msg||d.chapter)){any=true;
+      h+='<div class="entry"><h3>Dia '+i+(d.chapter?' · '+esc(d.chapter):'')+'</h3><p style="margin:4px 0 0">'+(d.msg?esc(d.msg):'<span class="muted">Sem reflexão escrita.</span>')+'</p></div>'}}
+    $('diary').innerHTML=any?h:'<p class="muted">Ainda vazio. Escreva a mensagem do dia no checklist de leitura.</p>';
+  }
+  function renderRoad(){
+    var h='';DAYS.forEach(function(D,i){h+='<li><b>Dia '+(i+1)+':</b> '+D.c+'</li>'});
+    $('roadList').innerHTML=h;
+  }
+
+  function party(){
+    var p=$('party');if(p.showModal&&!p.open)p.showModal();
+    var e=['🎉','✨','🙏','💛','🕊️'],i;
+    for(i=0;i<36;i++){var s=document.createElement('span');s.className='conf';s.textContent=e[i%e.length];
+      s.style.left=Math.random()*100+'vw';s.style.animationDuration=(2.5+Math.random()*2.5)+'s';s.style.animationDelay=(Math.random()*1.2)+'s';
+      document.body.appendChild(s);setTimeout((function(x){return function(){x.remove()}})(s),7000)}
+  }
+
+  /* eventos */
+  $('trail').addEventListener('click',function(e){var b=e.target.closest('.dot');if(!b)return;S.sel=+b.dataset.d;save();render();$('dayCard').scrollIntoView({behavior:'smooth',block:'start'})});
+  $('dayCard').addEventListener('change',function(e){
+    var k=e.target.dataset.k;if(!k)return;
+    var before=status(S.sel);day(S.sel)[k]=e.target.checked;save();
+    var after=status(S.sel);render();
+    if(after===2&&before!==2){
+      var c=$('cheer');c.textContent=CHEERS[Math.floor(Math.random()*CHEERS.length)];c.classList.add('show');
+      var all=true;for(var i=1;i<=9;i++)if(status(i)!==2)all=false;if(all)party();
+    }
+  });
+  $('dayCard').addEventListener('input',function(e){var f=e.target.dataset.f;if(!f)return;day(S.sel)[f]=e.target.value;save();renderDiary()});
+  $('who').addEventListener('input',function(e){S.who=e.target.value;save()});
+  $('startDate').addEventListener('change',function(e){S.start=e.target.value;var c=curDay();S.sel=c>=1&&c<=9?c:1;save();render()});
+  $('startToday').addEventListener('click',function(){S.start=todayStr();S.sel=1;save();render()});
+  $('roadToggle').addEventListener('change',function(e){S.road=e.target.checked;save();renderDay()});
+  $('closeParty').addEventListener('click',function(){$('party').close()});
+  $('resetAll').addEventListener('click',function(){if(confirm('Apagar todos os seus registros neste aparelho?')){S={start:'',who:'',road:false,sel:1,days:{}};save();render()}});
+
+  /* cronômetro */
+  var tLeft=1200,tId=null;
+  function fmt(){var m=Math.floor(tLeft/60),s=tLeft%60;$('clock').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+  $('tGo').addEventListener('click',function(){
+    if(tId){clearInterval(tId);tId=null;this.textContent='Continuar';return}
+    this.textContent='Pausar';
+    tId=setInterval(function(){tLeft--;fmt();if(tLeft<=0){clearInterval(tId);tId=null;$('tGo').textContent='Iniciar';tLeft=1200;
+      if(navigator.vibrate)navigator.vibrate([300,150,300]);alert('20 minutos completos! 💪')}},1000);
+  });
+  $('tReset').addEventListener('click',function(){clearInterval(tId);tId=null;tLeft=1200;fmt();$('tGo').textContent='Iniciar'});
+
+  load();
+  var c=curDay();if(S.start&&c>=1&&c<=9&&!S._seen){S.sel=c}
+  render();
+})();
+</script>
+</body>
+</html>
